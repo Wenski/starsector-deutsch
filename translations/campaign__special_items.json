@@ -1,6 +1,6 @@
 {
  "modspec#name": "Basis-ModSpec",
- "modspec#desc": "Eine Sammlung von Notizen, Richtlinien und praktischen Beispielen, mit deren Hilfe sich diese Modifikation an verschiedene Rümpfe anpassen und darauf anwenden lässt.",
+ "modspec#desc": "Eine Sammlung von Notizen, Richtlinien und Praxisbeispielen, mit denen sich diese Modifikation an verschiedene Rümpfe anpassen und anbringen lässt.",
  "corrupted_nanoforge#name": "Beschädigte Nanoschmiede",
  "corrupted_nanoforge#desc": "Eine leistungsstarke und vielseitige Fertigungs-\"Blackbox\", die sich bei ausreichend Rohstoffen und menschlicher Unterstützung selbst bis auf industrielle Größe ausbauen kann.\r\n\r\nDiese hier hat schon bessere Tage gesehen und kann keine zuverlässig fehlerfreien Bauteile mehr herstellen. Dennoch ist überhaupt eine Nanoschmiede zu besitzen ein Fortschritt, was den Raumschiffbau angeht.",
  "pristine_nanoforge#name": "Makellose Nanoschmiede",

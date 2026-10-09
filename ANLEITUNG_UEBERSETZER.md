@@ -8,6 +8,9 @@ Du übersetzt Texte des Weltraumspiels **Starsector** (2D-Flottenkampf/Handel/Er
 3. Schreibe `work/done/<name>.json` (gleicher Dateiname) mit **exakt denselben Schlüsseln** und dem deutschen Text als Wert. Jeden Schlüssel übernehmen, keinen auslassen, keinen hinzufügen.
 4. Die Ausgabe muss gültiges JSON sein (UTF-8, Anführungszeichen im Text als `\"` maskieren, Zeilenumbrüche als `\n`). Prüfe die Datei danach mit:
    `python -I -c "import json,sys; json.load(open(sys.argv[1],encoding='utf-8')); print('ok')" <datei>`
+4b. Danach **Selbstprüfung**: `python -I tools/pruefe_paket.py work/done/<name>.json` (im Projektordner).
+   Alle FEHLER und HERVORHEBUNG-Meldungen beheben; ZU LANG-Meldungen möglichst kürzen. Ziel: Längenverhältnis gesamt <= 1.15.
+   Wiederholen, bis 0 Fehler. (Das Skript ändert nichts - übernommen wird erst durch den Koordinator.)
 5. Große Pakete darfst du in mehreren Schritten schreiben (z.B. erst Hälfte per Write, dann per Edit ergänzen), solange am Ende eine gültige vollständige Datei steht.
 
 ## Schlüssel verstehen
