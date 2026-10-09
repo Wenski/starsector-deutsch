@@ -307,7 +307,7 @@ def check(en, de):
     extra = dict(b - a)
     if missing or extra:
         errs.append(f"Platzhalter abweichend: fehlt {missing} zuviel {extra}")
-    if en.count("\nOR\n") + en.startswith("OR\n") != de.count("\nOR\n") + de.startswith("OR\n"):
+    if sum(l.strip() == "OR" for l in en.split("\n")) != sum(l.strip() == "OR" for l in de.split("\n")):
         errs.append("Anzahl der OR-Zeilen (Textvarianten) abweichend")
     fa = [t for t in TOK_RE.findall(en) if t.startswith("%") and t != "%%"]
     fb = [t for t in TOK_RE.findall(de) if t.startswith("%") and t != "%%"]
@@ -414,6 +414,8 @@ def cmd_import(only=None):
                 bad += 1
                 continue
             de = norm(de)
+            if "\r\n" in src[k]:  # Zeilenumbrueche wie im Original (CRLF)
+                de = re.sub(r"(?<!\r)\n", "\r\n", de)
             if not re.search(r"%\s+\w", src[k]):  # dt. "50 %" -> "50%" (sonst Formatierungsfehler-Gefahr)
                 de = re.sub(r"(\d) %", r"\g<1>%", de)
             errs = check_unit(k, src[k], de)
