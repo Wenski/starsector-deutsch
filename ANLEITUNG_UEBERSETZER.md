@@ -25,6 +25,41 @@ Du übersetzt Texte des Weltraumspiels **Starsector** (2D-Flottenkampf/Handel/Er
 - Platzhalter (siehe Glossar) exakt erhalten. Wird `%s` später durch eine Zahl mit Einheit ersetzt, Satz entsprechend bauen.
 - Werte, die erkennbar kein Anzeigetext sind (IDs, Variablen, Code) -> unverändert.
 
+## LÄNGE (wichtig!)
+Die deutsche Fassung soll **ungefähr so lang sein wie das Original** - Ziel: höchstens ca. 10-15 % länger,
+bei kurzen Texten (Buttons, Optionen, Namen, Tooltips) möglichst **nicht länger** als das Englische.
+Die UI hat feste Breiten; zu lange Texte werden abgeschnitten oder umbrechen hässlich.
+- Knapp formulieren: Füllwörter streichen, Nominalstil vermeiden, kurze Synonyme wählen
+  ("Höchstgeschwindigkeit" -> "Tempo", "verringert" -> "senkt", "Explosionsschutztüren" -> "Druckschotts").
+- Übliche Abkürzungen sind bei kurzen Labels erlaubt: "max.", "min.", "ca.", "z.B.", "Std.", "Ballist.", "Org.".
+- Bei Dialogen: lieber Satzbau vereinfachen, als Inhalt zu streichen. Inhalt/Informationen nie weglassen.
+- Das Werkzeug meldet Texte, die deutlich länger sind (>30 % bei kurzen, >25 % bei langen Texten).
+
+## Dialoge (rules.csv) - Schlüssel und Sonderregeln
+- `regelId#text` = erzählender Dialogtext. `regelId#options#optionId` = Antwortoption/Button (kurz!).
+  `regelId#script#Z.S` = Text in einem Script-Befehl (AddText, SetTooltip, Highlight ...).
+- Einträge mit demselben `regelId` gehören zusammen - immer gemeinsam betrachten.
+- **Hervorhebungen:** Ein Script-String einer Regel, der wörtlich im englischen `#text` derselben Regel vorkommt,
+  ist eine Hervorhebung (Highlight). Die Übersetzung muss dann **wörtlich (gleiche Schreibung, gleicher Kasus)
+  in deinem übersetzten #text** vorkommen. Notfalls den Text so formulieren, dass es passt.
+- **Zeilen, die nur `OR` enthalten**, trennen Zufallsvarianten - exakt so stehen lassen (gleiche Anzahl).
+- Anführungszeichen in `#script#`-Strings müssen als `\"` im Text stehen (in JSON also `\\\"`); am besten vermeiden.
+- Optionen: kein Zeilenumbruch. Optionen in "..." sind wörtliche Rede des Spielers -> ebenfalls in "...".
+- **Wortwahl-Platzhalter** liefern englische Wörter: `$heOrShe`/`$HeOrShe` (he/she), `$hisOrHer`, `$himOrHer`,
+  `$himOrHerself`, `$manOrWoman`, `$brotherOrSister`, `$playerSirOrMadam` (sir/ma'am), `$shipOrFleet`, `$aOrAn`
+  sowie Varianten mit Präfix (z.B. `$gaTJ_heOrShe`). Diese **dürfen (und sollen meist) wegfallen**:
+  Satz neutral bauen - z.B. Name/Rang verwenden, sofern `$personName`/`$PersonName`/`$personLastName`/`$rank`/`$post`
+  im SELBEN Eintrag schon vorkommt (dann darf man es nicht zusätzlich einfügen, nur umstellen - Platzhalter dürfen
+  NICHT neu hinzukommen), sonst neutrale Umschreibung ("Ihr Gegenüber", "die Kommandantin/der Kommandant" vermeiden ->
+  "die Person", "das Gegenüber", Passiv, direkte Rede ohne Pronomen). `$playerSirOrMadam` -> "Kapitän".
+  `$shipOrFleet` -> "Flotte" oder neutral ("Ihr Verband").
+- Alle anderen Platzhalter (`$personName`, `$post`, `$rank`, `$faction`, `$marketName`, `$global.xyz` ...) müssen
+  in gleicher Anzahl erhalten bleiben. `$post`/`$rank` werden mit englischen Rängen gefüllt ("Commander",
+  "Administrator") - so einbauen, dass das gut lesbar bleibt (z.B. "der/die $post" vermeiden -> "$post $personLastName").
+- Duzen/Siezen: Fremde und Untergebene siezen den Spieler. Raue Typen (Piraten, Gauner, Pfad-Fanatiker) dürfen
+  den Spieler duzen, wenn das zur Figur passt - innerhalb einer Szene konsistent bleiben.
+- Spielmechanik-Texte (Kosten, Mengen, Reputation) knapp und eindeutig.
+
 ## Qualität
 - Natürliches Deutsch, Sinn vor Wörtlichkeit, Ton erhalten (Lore-Texte sind oft trocken-ironisch oder pseudo-historisch).
 - Einheitlich bleiben: gleiche englische Begriffe -> gleiche deutsche Begriffe innerhalb deines Pakets.

@@ -282,6 +282,17 @@ def json_apply(rel, tr):
 TOK_RE = re.compile(r"\$[A-Za-z_]\w*(?:\.\w+)*|%[-#+0,(]*\d*(?:\.\d+)?[sdfxX%]|\\n|<[^>]+>|\{\{|\}\}|\{[^{}]*\}")  # {{...}} = Hervorhebung mit sichtbarem Text
 
 
+def is_choice(tok):
+    return tok.startswith("$") and bool(re.search(
+        r"(he|his|him|himself|man|sir|brother|ship|fleet|a)or(she|her|hers|herself|woman|madam|sister|fleet|ship|an)$",
+        tok.split(".")[-1].lower()))
+
+
+def too_long(en, de):
+    """Laengenwarnung: deutlich laenger als das Original (kurze Texte strenger)."""
+    return len(de) > len(en) * (1.3 if len(en) < 60 else 1.25) + 4
+
+
 def check(en, de):
     """Liste von Fehlern (leer = ok)."""
     errs = []
@@ -290,8 +301,18 @@ def check(en, de):
     # $market / $Market sind beide gueltig (Gross-/Kleinschreibung des eingesetzten Wortes)
     a = Counter(t.lower() if t.startswith("$") else t for t in TOK_RE.findall(en))
     b = Counter(t.lower() if t.startswith("$") else t for t in TOK_RE.findall(de))
-    if a != b:
-        errs.append(f"Platzhalter abweichend: fehlt {dict(a - b)} zuviel {dict(b - a)}")
+    # Wortwahl-Platzhalter ($heOrShe, $shipOrFleet ...) liefern englische Woerter -> duerfen entfallen
+    choice = {t for t in a if is_choice(t)}
+    missing = {t: n for t, n in (a - b).items() if t not in choice}
+    extra = dict(b - a)
+    if missing or extra:
+        errs.append(f"Platzhalter abweichend: fehlt {missing} zuviel {extra}")
+    if en.count("\nOR\n") + en.startswith("OR\n") != de.count("\nOR\n") + de.startswith("OR\n"):
+        errs.append("Anzahl der OR-Zeilen (Textvarianten) abweichend")
+    fa = [t for t in TOK_RE.findall(en) if t.startswith("%") and t != "%%"]
+    fb = [t for t in TOK_RE.findall(de) if t.startswith("%") and t != "%%"]
+    if fa != fb and Counter(fa) == Counter(fb):
+        errs.append(f"Reihenfolge der %-Platzhalter vertauscht: {fa} -> {fb}")
     bad = {ch for ch in norm(de) if ord(ch) > 127 and ch not in ALLOWED_EXTRA}
     if bad:
         errs.append(f"nicht darstellbare Zeichen {sorted(bad)}")
@@ -397,13 +418,43 @@ def cmd_import(only=None):
             ok += 1
         missing = [k for k in todo if k not in done]
         jdump(tr, os.path.join(TRN, side(rel)))
-        print(f"{fn}: {ok} uebernommen, {bad} abgelehnt, {len(missing)} fehlen")
+        long_ = sum(1 for k in done if k in tr and too_long(src[k], tr[k]))
+        print(f"{fn}: {ok} uebernommen, {bad} abgelehnt, {len(missing)} fehlen, {long_} deutlich laenger")
         ok_total += ok
         if bad == 0 and not missing:
             os.remove(os.path.join(DONE, fn))
             if os.path.exists(os.path.join(TODO, fn)):
                 os.remove(os.path.join(TODO, fn))
     print(f"insgesamt {ok_total} uebernommen")
+
+
+def cmd_review():
+    """Schreibt work/review.json: zu lange Texte und Hervorhebungen, die im Text nicht mehr vorkommen."""
+    out = {"zu_lang": [], "hervorhebung_fehlt": []}
+    for rel in all_files():
+        src = jload(os.path.join(SRC, side(rel)), {})
+        tr = jload(os.path.join(TRN, side(rel)), {})
+        for k, v in tr.items():
+            if k in src and too_long(src[k], v):
+                out["zu_lang"].append([side(rel), k, src[k], v])
+    rel = "data/campaign/rules.csv"
+    tr = jload(os.path.join(TRN, side(rel)), {})
+    rows = csv_rows(rel)
+    h = rows[0]
+    for row in rows[1:]:
+        if len(row) < len(h) or not row[0] or row[0].startswith("#"):
+            continue
+        text = tr.get(f"{row[0]}#text")
+        if text is None:
+            continue
+        lines = row[h.index("script")].split("\n")
+        for ln, si, a, b, t in script_units(row[h.index("script")]):
+            cmd = lines[ln].split()[0]
+            de = tr.get(f"{row[0]}#script#{ln}.{si}")
+            if cmd in ("Highlight", "SetTextHighlights") and t in row[h.index("text")] and de and de not in text:
+                out["hervorhebung_fehlt"].append([row[0], f"{row[0]}#script#{ln}.{si}", t, de])
+    jdump(out, os.path.join(ROOT, "work", "review.json"))
+    print({k: len(v) for k, v in out.items()})
 
 
 def cmd_build(dest=MOD, empty=False):
@@ -483,5 +534,7 @@ if __name__ == "__main__":
         cmd_import(sys.argv[2:] or None)
     elif c == "build":
         cmd_build()
+    elif c == "review":
+        cmd_review()
     elif c == "selftest":
         cmd_selftest()
