@@ -1,0 +1,10 @@
+{
+ "open_market#name": "Freier\r\nMarkt",
+ "open_market#desc": "Der Freie Markt. Hier dürfen nur legale Waren gehandelt werden, und auf Geschäfte werden Zölle erhoben. Bei hoher Stabilität sind mehr Waren verfügbar.\r\n\r\nWer genug von einer Ware verkauft, behebt einen Mangel vorübergehend.",
+ "black_market#name": "Schwarz-\r\nmarkt",
+ "black_market#desc": "Der Schwarzmarkt. Hier kann alles gekauft oder verkauft werden, und es gibt keine Zölle. Bei niedriger Stabilität sind mehr Waren verfügbar.\r\n\r\nWer genug von einer Ware verkauft, behebt einen Mangel vorübergehend.\r\n\r\nSchwarzmarktgeschäfte können die Aufmerksamkeit der Behörden erregen, was zu Frachtscans und schlechterem Ansehen bei der Fraktion führt - es sei denn, sie werden bei ausgeschaltetem Transponder abgewickelt.\r\n\r\nLegaler Handel als \"Tarnung\" verringert ebenfalls die Wahrscheinlichkeit, die Aufmerksamkeit der Behörden zu erregen.",
+ "storage#name": "Lager",
+ "storage#desc": "Lagerraum für Schiffe und Fracht.",
+ "generic_military#desc": "Handel mit der Militärbasis von $theFaction.\r\n\r\nWaffen und andere Militärausrüstung können hier gekauft und verkauft werden, selbst wenn sie auf dem Freien Markt illegal sind. Eine Kommission und besseres Ansehen bei $theFaction machen hochwertigere Ausrüstung verfügbar.\r\n\r\nKauft lokal illegale Waren im Rahmen eines Rückkaufprogramms ohne Fragen an.\r\n\r\nWer genug von einer Ware verkauft, behebt einen Mangel vorübergehend.",
+ "local_resources#name": "Ressourcen-\r\nlager"
+}
