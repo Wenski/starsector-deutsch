@@ -368,7 +368,14 @@ def cmd_chunk(rel, size):
     t = jload(os.path.join(TRN, side(rel)), {})
     os.makedirs(TODO, exist_ok=True)
     base = side(rel)[:-5]
-    chunk, n, cur, last_row = {}, 0, 0, None
+    taken, nums = set(), [-1]
+    for fn in os.listdir(TODO):
+        if fn.startswith(base + "--"):
+            taken |= set(jload(os.path.join(TODO, fn)))
+            nums.append(int(fn.rsplit("--", 1)[1][:3]))
+    t = dict(t, **{k: None for k in taken})
+    chunk, n, cur, last_row = {}, max(nums) + 1, 0, None
+    first = n
     for k, v in s.items():
         row = k.split("#")[0] if rel.endswith(".csv") else None
         if k in t:
@@ -382,7 +389,7 @@ def cmd_chunk(rel, size):
     if chunk:
         jdump(chunk, os.path.join(TODO, f"{base}--{n:03d}.json"))
         n += 1
-    print(f"{n} Pakete fuer {rel}")
+    print(f"{n - first} Pakete fuer {rel} (ab Nr. {first})")
 
 
 def cmd_import(only=None):
@@ -426,6 +433,24 @@ def cmd_import(only=None):
             if os.path.exists(os.path.join(TODO, fn)):
                 os.remove(os.path.join(TODO, fn))
     print(f"insgesamt {ok_total} uebernommen")
+
+
+def cmd_prefill():
+    """Setzt Standardtexte (tools/standardtexte.json) fuer alle exakt passenden Dialog-Eintraege."""
+    std = jload(os.path.join(ROOT, "tools", "standardtexte.json"))
+    rel = "data/campaign/rules.csv"
+    src = jload(os.path.join(SRC, side(rel)))
+    tr = jload(os.path.join(TRN, side(rel)), {})
+    n = 0
+    for k, v in src.items():
+        de = std.get(v.strip())
+        if de is not None and "#text" not in k:
+            de = v[:len(v) - len(v.lstrip())] + de + v[len(v.rstrip()):]
+            if not check_unit(k, v, de):
+                tr[k] = de
+                n += 1
+    jdump(tr, os.path.join(TRN, side(rel)))
+    print(f"{n} Standardtexte gesetzt")
 
 
 def cmd_review():
@@ -534,6 +559,8 @@ if __name__ == "__main__":
         cmd_import(sys.argv[2:] or None)
     elif c == "build":
         cmd_build()
+    elif c == "prefill":
+        cmd_prefill()
     elif c == "review":
         cmd_review()
     elif c == "selftest":

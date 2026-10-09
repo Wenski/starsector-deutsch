@@ -70,3 +70,9 @@ Die UI hat feste Breiten; zu lange Texte werden abgeschnitten oder umbrechen hä
 - Keine Anmerkungen, keine Kommentare im JSON.
 
 Am Ende kurz melden: Dateiname, Anzahl Einträge, und ggf. unsichere Entscheidungen (max. 5 Stichpunkte).
+
+## Standard-Optionen (bereits zentral übersetzt - in deinen Texten genauso verwenden)
+Continue = Weiter · Leave = Gehen · Back = Zurück · Accept = Annehmen · Decline/Refuse = Ablehnen ·
+Cut the comm link / Cut the comms = Verbindung trennen · Say nothing = Schweigen · Never mind = Schon gut ·
+End the conversation = Gespräch beenden · Explore = Erkunden · Wait = Warten · Follow = Folgen ·
+shuttle = Fähre · comm link / comms = Verbindung / Kommunikation · bribe = Bestechung
