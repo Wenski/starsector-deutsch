@@ -279,7 +279,7 @@ def json_apply(rel, tr):
 
 # ---------------------------------------------------------------- Pruefungen
 
-TOK_RE = re.compile(r"\$[A-Za-z_][\w.]*|%[-#+ 0,(]*\d*(?:\.\d+)?[sdfxX%]|\\n|<[^>]+>|\{[^}]*\}")
+TOK_RE = re.compile(r"\$[A-Za-z_]\w*(?:\.\w+)*|%[-#+0,(]*\d*(?:\.\d+)?[sdfxX%]|\\n|<[^>]+>|\{\{|\}\}|\{[^{}]*\}")  # {{...}} = Hervorhebung mit sichtbarem Text
 
 
 def check(en, de):
@@ -287,7 +287,9 @@ def check(en, de):
     errs = []
     if not de.strip():
         errs.append("leer")
-    a, b = Counter(TOK_RE.findall(en)), Counter(TOK_RE.findall(de))
+    # $market / $Market sind beide gueltig (Gross-/Kleinschreibung des eingesetzten Wortes)
+    a = Counter(t.lower() if t.startswith("$") else t for t in TOK_RE.findall(en))
+    b = Counter(t.lower() if t.startswith("$") else t for t in TOK_RE.findall(de))
     if a != b:
         errs.append(f"Platzhalter abweichend: fehlt {dict(a - b)} zuviel {dict(b - a)}")
     bad = {ch for ch in norm(de) if ord(ch) > 127 and ch not in ALLOWED_EXTRA}
@@ -362,11 +364,11 @@ def cmd_chunk(rel, size):
     print(f"{n} Pakete fuer {rel}")
 
 
-def cmd_import():
+def cmd_import(only=None):
     by_base = {side(r)[:-5]: r for r in all_files()}
     ok_total = 0
     for fn in sorted(os.listdir(DONE)) if os.path.isdir(DONE) else []:
-        if not fn.endswith(".json"):
+        if not fn.endswith(".json") or (only and not any(fn.startswith(o) for o in only)):
             continue
         rel = by_base[fn.split("--")[0]]
         src = jload(os.path.join(SRC, side(rel)))
@@ -384,6 +386,8 @@ def cmd_import():
                 bad += 1
                 continue
             de = norm(de)
+            if not re.search(r"%\s+\w", src[k]):  # dt. "50 %" -> "50%" (sonst Formatierungsfehler-Gefahr)
+                de = re.sub(r"(\d) %", r"\g<1>%", de)
             errs = check_unit(k, src[k], de)
             if errs:
                 print(f"!! {fn}: {k}: {'; '.join(errs)}")
@@ -475,8 +479,8 @@ if __name__ == "__main__":
         cmd_status()
     elif c == "chunk":
         cmd_chunk(sys.argv[2], int(sys.argv[3]))
-    elif c == "import":
-        cmd_import()
+    elif c == "import":  # optional: nur Pakete mit diesen Namensanfaengen (laufende Uebersetzer nicht stoeren)
+        cmd_import(sys.argv[2:] or None)
     elif c == "build":
         cmd_build()
     elif c == "selftest":

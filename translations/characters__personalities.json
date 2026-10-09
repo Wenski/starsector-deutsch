@@ -1,0 +1,12 @@
+{
+ "timid#name": "Zaghaft",
+ "timid#desc": "Im Kampf versucht dieser Offizier, direkte Gefechte nach Möglichkeit zu vermeiden, selbst wenn er ein Kampfschiff kommandiert.",
+ "cautious#name": "Vorsichtig",
+ "cautious#desc": "Im Kampf bleibt dieser Offizier lieber außerhalb der feindlichen Reichweite und rückt nur gelegentlich vor, wenn der Gegner eine größere Reichweite hat.",
+ "steady#name": "Standhaft",
+ "steady#desc": "Im Kampf bevorzugt dieser Offizier ein ausgewogenes Vorgehen mit einer Taktik, die der jeweiligen Lage entspricht.",
+ "aggressive#name": "Aggressiv",
+ "aggressive#desc": "Im Kampf greift dieser Offizier bevorzugt auf eine Distanz an, die den Einsatz aller Waffen seines Schiffs erlaubt, steuert zivile Schiffe wie Kampfschiffe und setzt ihm unterstellte Jäger aggressiv ein.",
+ "reckless#name": "Rücksichtslos",
+ "reckless#desc": "Im Kampf ist dieser Offizier übertrieben aggressiv und missachtet bei dem Versuch, den Feind zu stellen, oft völlig die Sicherheit seines Schiffs."
+}

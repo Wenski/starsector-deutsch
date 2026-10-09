@@ -1,0 +1,10 @@
+{
+ "combat#name": "Kampf",
+ "combat#description": "Fertigkeiten, die die Kampfleistung Ihres Flaggschiffs verbessern.",
+ "leadership#name": "Führung",
+ "leadership#description": "Fertigkeiten, die die Kampfleistung Ihrer Flotte und Ihrer Offiziere verbessern.",
+ "technology#name": "Technologie",
+ "technology#description": "Eine Mischung aus Fertigkeiten, die Erkundung, Tarnung und bestimmten Aspekten der Kampfleistung Ihrer Flotte und Offiziere zugutekommen.",
+ "industry#name": "Industrie",
+ "industry#description": "Fertigkeiten, die Effizienz und Widerstandsfähigkeit Ihrer Flotte verbessern und die Erholung von Verlusten erleichtern."
+}
