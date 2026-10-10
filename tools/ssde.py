@@ -284,7 +284,7 @@ TOK_RE = re.compile(r"\$[A-Za-z_]\w*(?:\.\w+)*|%[-#+0,(]*\d*(?:\.\d+)?[sdfxX%]|\
 
 def is_choice(tok):
     """Wortwahl-Platzhalter wie $heOrShe, $factionIsOrAre, $onOrAt (CamelCase ...XOrY) liefern englische Woerter."""
-    return tok.startswith("$") and bool(re.search(r"[a-z]Or[A-Z][a-z]*$", tok.split(".")[-1]))
+    return tok.startswith("$") and bool(re.search(r"[A-Za-z]Or[A-Z][a-z]*$", tok.split(".")[-1]))
 
 
 def too_long(en, de):
