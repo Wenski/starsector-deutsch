@@ -330,6 +330,9 @@ def check_unit(key, en, de):
         errs.append("unmaskiertes Anfuehrungszeichen in Script-String")
     if "#options#" in key and "\n" in de:
         errs.append("Zeilenumbruch in Option")
+    if "#options#" in key and ":" in de and ":" not in en:
+        # Das Spiel trennt Optionszeilen an ':' ([Reihenfolge:]id:Text) -> sonst NumberFormatException beim Start
+        errs.append("Doppelpunkt in Option (bricht das Laden von rules.csv)")
     if key.startswith("java#") and not re.fullmatch(
             r'(?:[^"\\\r\n]|\\[btnfr"\'\\]|\\u[0-9a-f]{4})*', java_esc(norm(de))):
         errs.append("kein gueltiges Java-Stringliteral (Backslash/Zeilenumbruch?)")
@@ -629,7 +632,7 @@ def cmd_build(dest=MOD, empty=False):
         "name": "Deutsche Übersetzung",
         "author": "Christian Wenski",
         "utility": "true",
-        "version": "0.4.0",
+        "version": "0.4.1",
         "description": "Deutsche Übersetzung der Spieltexte (Dialoge, Beschreibungen, Tooltips, Missionen, Codex). "
                        "Verändert keine Dateien des Spiels - zum Zurücksetzen einfach deaktivieren.",
         "gameVersion": "0.98a-RC8",
