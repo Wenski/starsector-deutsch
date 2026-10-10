@@ -331,12 +331,78 @@ def check_unit(key, en, de):
 
 # ---------------------------------------------------------------- Befehle
 
+# ---------------------------------------------------------------- Missionen
+
+def mission_files():
+    base = os.path.join(CORE, "data", "missions")
+    out = []
+    for m in sorted(os.listdir(base)):
+        if os.path.isfile(os.path.join(base, m, "mission_text.txt")):
+            out += [f"data/missions/{m}/descriptor.json", f"data/missions/{m}/mission_text.txt",
+                    f"data/missions/{m}/MissionDefinition.java"]
+    return out
+
+
+JAVA_TEXT_RE = re.compile(r'api\.(?:setFleetTagline|addBriefingItem)\((?:[^;"]*,\s*)?"((?:[^"\\]|\\.)*)"\s*\)')
+
+
+def java_units(rel):
+    s = read_text(os.path.join(CORE, rel))
+    for i, m in enumerate(JAVA_TEXT_RE.finditer(s)):
+        yield f"java#{i}", m.group(1).replace('\\"', '"')
+
+
+def java_esc(text):  # Anfuehrungszeichen maskieren, Nicht-ASCII als \\uXXXX (Kodierung egal)
+    text = re.sub(r'(?<!\\)"', '\\"', text)
+    return "".join(c if ord(c) < 128 else f"\\u{ord(c):04x}" for c in text)
+
+
+def java_apply(rel, tr):
+    s = read_text(os.path.join(CORE, rel))
+    parts, last, used = [], 0, 0
+    for i, m in enumerate(JAVA_TEXT_RE.finditer(s)):
+        t = tr.get(f"java#{i}")
+        if t is not None:
+            parts += [s[last:m.start(1)], java_esc(norm(t))]
+            last = m.end(1)
+            used += 1
+    parts.append(s[last:])
+    return "".join(parts), used
+
+
+def txt_units(rel):
+    yield "text", read_text(os.path.join(CORE, rel))
+
+
+def txt_apply(rel, tr):
+    t = tr.get("text")
+    return norm(t if t is not None else read_text(os.path.join(CORE, rel))), int(t is not None)
+
+
 def all_files():
-    return list(CSV_FILES) + JSON_FILES
+    return list(CSV_FILES) + JSON_FILES + mission_files()
 
 
 def units(rel):
-    return csv_units(rel) if rel.endswith(".csv") else json_units(rel)
+    if rel.endswith(".csv"):
+        return csv_units(rel)
+    if rel.endswith(".java"):
+        return java_units(rel)
+    if rel.endswith(".txt"):
+        return txt_units(rel)
+    if rel.endswith("descriptor.json"):  # nur der Titel ist Anzeigetext
+        return ((k, v) for k, v in json_units(rel) if k == "title")
+    return json_units(rel)
+
+
+def apply_any(rel, tr):
+    if rel.endswith(".csv"):
+        return csv_apply(rel, tr)
+    if rel.endswith(".java"):
+        return java_apply(rel, tr)
+    if rel.endswith(".txt"):
+        return txt_apply(rel, tr)
+    return json_apply(rel, tr)
 
 
 def cmd_extract():
@@ -484,19 +550,22 @@ def cmd_review():
 
 
 def cmd_build(dest=MOD, empty=False):
-    replace, written = [], []
+    replace, written, files = [], [], []
     for rel in all_files():
         tr = {} if empty else jload(os.path.join(TRN, side(rel)), {})
         if not tr and not empty:
             continue
         src = jload(os.path.join(SRC, side(rel)), {})
         tr = {k: v for k, v in tr.items() if k in src and not check_unit(k, src[k], v)}
-        text, used = csv_apply(rel, tr) if rel.endswith(".csv") else json_apply(rel, tr)
+        text, used = apply_any(rel, tr)
         out = os.path.join(dest, rel)
         os.makedirs(os.path.dirname(out), exist_ok=True)
         with open(out, "w", encoding="utf-8", newline="") as f:
             f.write(text)
-        replace.append(rel)
+        files.append(rel)
+        # .txt/.java ueberschreiben per Pfad; "replace" nur fuer zusammengefuehrte CSV/JSON
+        if not rel.startswith("data/missions/") or rel.endswith(".json"):
+            replace.append(rel)
         written.append(f"{rel}: {used} Texte")
     info = {
         "id": "deutsch_uebersetzung",
@@ -504,7 +573,7 @@ def cmd_build(dest=MOD, empty=False):
         "author": "Christian Wenski",
         "utility": "true",
         "version": "0.2.0",
-        "description": "Deutsche Übersetzung der Spieltexte (Dialoge, Beschreibungen, Tooltips). "
+        "description": "Deutsche Übersetzung der Spieltexte (Dialoge, Beschreibungen, Tooltips, Missionen). "
                        "Verändert keine Dateien des Spiels - zum Zurücksetzen einfach deaktivieren.",
         "gameVersion": "0.98a-RC8",
         "replace": replace,
@@ -512,7 +581,7 @@ def cmd_build(dest=MOD, empty=False):
     with open(os.path.join(dest, "mod_info.json"), "w", encoding="utf-8", newline="\n") as f:
         json.dump(info, f, ensure_ascii=True, indent=1)
     print("\n".join(written))
-    return replace
+    return files
 
 
 def cmd_selftest():
@@ -527,12 +596,12 @@ def cmd_selftest():
             assert ra == rb, f"CSV-Roundtrip abweichend: {rel}"
             a = b
         else:
-            assert norm(a) == b, f"JSON-Roundtrip abweichend: {rel}"
+            assert norm(a) == b, f"Roundtrip abweichend: {rel}"
             a = norm(a)
         # Probe: jeden Text durch Markierung ersetzen und pruefen, dass nur Textstellen betroffen sind
         src = jload(os.path.join(SRC, side(rel)))
         probe = {k: "XX" + v for k, v in src.items()}
-        text, used = csv_apply(rel, probe) if rel.endswith(".csv") else json_apply(rel, probe)
+        text, used = apply_any(rel, probe)
         assert used == len(src), f"{rel}: {used} != {len(src)}"
         if rel.endswith(".csv"):
             keys, cols = CSV_FILES[rel]
