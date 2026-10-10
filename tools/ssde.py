@@ -312,6 +312,10 @@ def check(en, de):
     fb = [t for t in TOK_RE.findall(de) if t.startswith("%") and t != "%%"]
     if fa != fb and Counter(fa) == Counter(fb):
         errs.append(f"Reihenfolge der %-Platzhalter vertauscht: {fa} -> {fb}")
+    if Counter(re.findall(r"\{\{rel:([^|}]*)", en)) != Counter(re.findall(r"\{\{rel:([^|}]*)", de)):
+        errs.append("Codex-Linkziel ({{rel:...|}}) veraendert")
+    if en.strip().startswith("==") != de.strip().startswith("=="):  # Codex-Zwischenueberschrift ==...==
+        errs.append("==Ueberschrift== verloren oder hinzugefuegt")
     bad = {ch for ch in norm(de) if ord(ch) > 127 and ch not in ALLOWED_EXTRA}
     if bad:
         errs.append(f"nicht darstellbare Zeichen {sorted(bad)}")
@@ -385,8 +389,51 @@ def txt_apply(rel, tr):
     return norm(t if t is not None else read_text(os.path.join(CORE, rel))), int(t is not None)
 
 
+# ---------------------------------------------------------------- Codex (zeilenbasiert mit Steuerbefehlen)
+
+CODEX_FILES = ["data/codex/spacers_manual_combat.txt", "data/codex/spacers_manual_ui.txt",
+               "data/codex/spacers_manual_other.txt", "data/codex/game_mechanics.txt"]
+CODEX_CTRL = ("CURRENT_CATEGORY", "ICON", "IMAGE", "COLOR", "RESET", "END", "#")
+
+
+def codex_units_raw(rel):
+    """(schluessel, zeilennr, praefix, text) - praefix bleibt unveraendert (z.B. 'BEGIN gm_armor|')."""
+    lines = read_text(os.path.join(CORE, rel)).split("\n")
+    for i, line in enumerate(lines):
+        body = line.rstrip("\r")
+        s = body.strip()
+        if not s or s.startswith(CODEX_CTRL):
+            continue
+        if s.startswith(("BEGIN ", "CATEGORY ")):
+            parts = body.split("|")
+            if s.startswith("BEGIN ") and len(parts) == 2:
+                yield f"L{i}#titel", i, parts[0] + "|", parts[1], ""
+            elif s.startswith("CATEGORY ") and len(parts) == 4:
+                yield f"L{i}#titel", i, "|".join(parts[:2]) + "|", parts[2], "|" + parts[3]
+            continue
+        yield f"L{i}", i, "", body, ""
+
+
+def codex_units(rel):
+    for k, i, pre, text, post in codex_units_raw(rel):
+        yield k, text
+
+
+def codex_apply(rel, tr):
+    raw = read_text(os.path.join(CORE, rel))
+    lines = raw.split("\n")
+    used = 0
+    for k, i, pre, text, post in codex_units_raw(rel):
+        t = tr.get(k)
+        if t is not None:
+            cr = "\r" if lines[i].endswith("\r") else ""
+            lines[i] = pre + t + post + cr
+            used += 1
+    return norm("\n".join(lines)), used
+
+
 def all_files():
-    return list(CSV_FILES) + JSON_FILES + mission_files()
+    return list(CSV_FILES) + JSON_FILES + mission_files() + CODEX_FILES
 
 
 def units(rel):
@@ -394,6 +441,8 @@ def units(rel):
         return csv_units(rel)
     if rel.endswith(".java"):
         return java_units(rel)
+    if rel.startswith("data/codex/"):
+        return codex_units(rel)
     if rel.endswith(".txt"):
         return txt_units(rel)
     if rel.endswith("descriptor.json"):  # nur der Titel ist Anzeigetext
@@ -406,6 +455,8 @@ def apply_any(rel, tr):
         return csv_apply(rel, tr)
     if rel.endswith(".java"):
         return java_apply(rel, tr)
+    if rel.startswith("data/codex/"):
+        return codex_apply(rel, tr)
     if rel.endswith(".txt"):
         return txt_apply(rel, tr)
     return json_apply(rel, tr)
@@ -570,7 +621,7 @@ def cmd_build(dest=MOD, empty=False):
             f.write(text)
         files.append(rel)
         # .txt/.java ueberschreiben per Pfad; "replace" nur fuer zusammengefuehrte CSV/JSON
-        if not rel.startswith("data/missions/") or rel.endswith(".json"):
+        if not rel.startswith(("data/missions/", "data/codex/")) or rel.endswith(".json"):
             replace.append(rel)
         written.append(f"{rel}: {used} Texte")
     info = {
@@ -579,7 +630,7 @@ def cmd_build(dest=MOD, empty=False):
         "author": "Christian Wenski",
         "utility": "true",
         "version": "0.3.0",
-        "description": "Deutsche Übersetzung der Spieltexte (Dialoge, Beschreibungen, Tooltips, Missionen). "
+        "description": "Deutsche Übersetzung der Spieltexte (Dialoge, Beschreibungen, Tooltips, Missionen, Codex). "
                        "Verändert keine Dateien des Spiels - zum Zurücksetzen einfach deaktivieren.",
         "gameVersion": "0.98a-RC8",
         "replace": replace,
