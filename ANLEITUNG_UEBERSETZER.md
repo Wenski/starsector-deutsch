@@ -76,3 +76,6 @@ Continue = Weiter · Leave = Gehen · Back = Zurück · Accept = Annehmen · Dec
 Cut the comm link / Cut the comms = Verbindung trennen · Say nothing = Schweigen · Never mind = Schon gut ·
 End the conversation = Gespräch beenden · Explore = Erkunden · Wait = Warten · Follow = Folgen ·
 shuttle = Fähre · comm link / comms = Verbindung / Kommunikation · bribe = Bestechung
+- **Nie Buchstaben direkt an einen Platzhalter hängen** (`$playerLastNames`, `$factions` sind für das Spiel andere Variablen!).
+  Genitiv umschreiben: "von Kapitän $playerLastName", "die Flotte von $faction". Ein Bindestrich danach ist ok: "$faction-Flotte".
+- Namens-Platzhalter nicht wiederholen, um ein Pronomen zu ersetzen - lieber "man", Passiv oder Rolle ("der Offizier").
