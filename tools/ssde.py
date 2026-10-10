@@ -393,7 +393,7 @@ def txt_apply(rel, tr):
 
 CODEX_FILES = ["data/codex/spacers_manual_combat.txt", "data/codex/spacers_manual_ui.txt",
                "data/codex/spacers_manual_other.txt", "data/codex/game_mechanics.txt"]
-CODEX_CTRL = ("CURRENT_CATEGORY", "ICON", "IMAGE", "COLOR", "RESET", "END", "#")
+CODEX_CTRL = ("CURRENT_CATEGORY", "ICON", "IMAGE", "COLOR", "RESET", "END", "RELATED", "FONT", "TEST", "#")
 
 
 def codex_units_raw(rel):
@@ -629,7 +629,7 @@ def cmd_build(dest=MOD, empty=False):
         "name": "Deutsche Übersetzung",
         "author": "Christian Wenski",
         "utility": "true",
-        "version": "0.3.0",
+        "version": "0.4.0",
         "description": "Deutsche Übersetzung der Spieltexte (Dialoge, Beschreibungen, Tooltips, Missionen, Codex). "
                        "Verändert keine Dateien des Spiels - zum Zurücksetzen einfach deaktivieren.",
         "gameVersion": "0.98a-RC8",

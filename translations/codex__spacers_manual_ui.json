@@ -1,0 +1,14 @@
+{
+ "L0#titel": "UI",
+ "L4#titel": "Ihr TriPad kennenlernen",
+ "L6": "==Scrollbare Listen==",
+ "L7": "Die Bildlaufleiste wird größer, wenn sich die Maus nähert, damit sie leichter zu treffen ist. Halten Sie {{Shift}} beim Mausrad gedrückt, um schneller zu scrollen.",
+ "L9": " ==Eingabefelder==",
+ "L10": "Mit {{Ctrl-Backspace}} löschen Sie ein Wort, mit {{Shift-Backspace}} das gesamte Eingabefeld.",
+ "L12": "==Tags==",
+ "L13": "Mit {{Ctrl-Click}} wählen Sie mehrere Tags aus oder heben die Auswahl eines Tags auf, ohne den Rest der Auswahl zu ändern.",
+ "L15": "==Intel==",
+ "L16": "Mit {{Ctrl-S}} speichern Sie die aktuellen Tags, mit {{Q}} wählen Sie sie erneut aus. Mit {{Shift-Q}} fügen Sie die gespeicherten Tags Ihrer Auswahl hinzu. Das gilt nur für die Tags im {{Intel}}-Bildschirm.",
+ "L18": "==Codex==",
+ "L19": "Mit {{F2}} öffnen Sie überall den Codex. Oft, etwa im Umrüstbildschirm oder bei einem Tooltip, öffnet der Codex automatisch den passenden Eintrag."
+}

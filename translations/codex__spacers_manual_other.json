@@ -1,0 +1,12 @@
+{
+ "L0#titel": "Sonstiges",
+ "L4#titel": "Technologiestufen",
+ "L5": "Die Technologiestufen von Schiffen - {{Low Tech}}, {{Midline}} und {{High Tech}} - sind keine Qualitätsstufen. Es sind nur verschiedene Konstruktionsansätze für den Kampf, und keiner ist besser als die anderen. Stärkere Schiffe kosten meist mehr Einsatzpunkte.",
+ "L8": "==Low-Tech==",
+ "L10": "Schwer gepanzert, langsam, mit einer Mischung aus ballistischen und Raketenwaffen. Schwächere Schilde. Der {{rel:codex_system_burndrive|Schubantrieb}}, ein gängiges Low-Tech-Schiffssystem, bietet nur Mobilität nach vorn. Damit können die Schiffe schnellere Gegner verfolgen und bestrafen, sich aber kaum aus einer schlechten Lage zurückziehen. Größere Schiffe sind oft anfällig für Flankenangriffe und brauchen Unterstützung, um effektiv zu sein.",
+ "L13": "==Midline==",
+ "L15": "Meist durchschnittliche Panzerung, Schilde und Mobilität. Mischung aus ballistischen, Energie- und Raketenwaffen. Die Energiewaffen sind meist Strahlen - die Schiffe können zwar andere Energiewaffen tragen, haben aber meist nicht die nötige Flux-Ableitung, um sie gut zu nutzen. Oft auf spezialisierte Schiffe angewiesen, die zusammenarbeiten, um maximale Wirkung zu erzielen.",
+ "L18": "==High-Tech==",
+ "L20": "Schnell, mit starken Schilden und schwächerer Panzerung. Mischung aus Energie- und Raketenwaffen, mit genug Flux-Ableitung für ein breiteres Spektrum an Energiewaffen. Diese haben meist geringere Reichweite, was durch die höhere Höchstgeschwindigkeit der Schiffe ausgeglichen wird. Setzen oft auf Hit-and-Run-Taktiken und blühen in chaotischen Gefechten auf.",
+ "L22": "All dies sind Verallgemeinerungen, und es gibt Ausnahmen.  "
+}
