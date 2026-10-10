@@ -153,7 +153,7 @@
 | Galatia Academy | Galatia-Akademie |
 | commsplate | Sprechplatte |
 | comms ID | Komm-ID |
-| Fleet Intelligence (Service) | Flottengeheimdienst |
+| Fleet Intelligence (Service) | Flottennachrichtendienst |
 | Demarchon, Archon, Gens, Warlord, MuniSec, FleetSec | unverändert (Titel/Eigennamen) |
 | Gargoyle (Hacker) | Gargoyle - duzt den Spieler, weiblich ("die Beste") |
 | Knight(s) of Ludd | Ritter von Ludd |
@@ -165,3 +165,11 @@
 | High Hegemon | Hoher Hegemon |
 | Janus Device | Janus-Gerät |
 | Gentes (Plural von Gens) | Gentes |
+| the Company (Tri-Tachyon) | der Konzern |
+| Transverse Jump | Transversalsprung |
+| black site | Geheimanlage |
+| Alpha Site | Alpha Site (Ortsname) |
+| Motes / Mote Inducers | Motes / Mote-Induktoren |
+| ops chief | Einsatzchef(in) |
+| Lieutenant | Leutnant |
+| the Abyss | der Abgrund |
