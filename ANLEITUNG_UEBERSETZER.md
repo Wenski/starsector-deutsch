@@ -50,7 +50,7 @@ Die UI hat feste Breiten; zu lange Texte werden abgeschnitten oder umbrechen hä
 - Optionen: kein Zeilenumbruch. Optionen in "..." sind wörtliche Rede des Spielers -> ebenfalls in "...".
 - **Wortwahl-Platzhalter** liefern englische Wörter: `$heOrShe`/`$HeOrShe` (he/she), `$hisOrHer`, `$himOrHer`,
   `$himOrHerself`, `$manOrWoman`, `$brotherOrSister`, `$playerSirOrMadam` (sir/ma'am), `$shipOrFleet`, `$aOrAn`
-  sowie Varianten mit Präfix (z.B. `$gaTJ_heOrShe`). Diese **dürfen (und sollen meist) wegfallen**:
+  sowie Varianten mit Präfix (z.B. `$gaTJ_heOrShe`) und **alle anderen Platzhalter der Form ...XOrY** wie `$factionIsOrAre` (is/are), `$onOrAt` (on/at), `$hasOrHave`. Diese **dürfen (und sollen meist) wegfallen**:
   Satz neutral bauen - z.B. Name/Rang verwenden, sofern `$personName`/`$PersonName`/`$personLastName`/`$rank`/`$post`
   im SELBEN Eintrag schon vorkommt (dann darf man es nicht zusätzlich einfügen, nur umstellen - Platzhalter dürfen
   NICHT neu hinzukommen), sonst neutrale Umschreibung ("Ihr Gegenüber", "die Kommandantin/der Kommandant" vermeiden ->

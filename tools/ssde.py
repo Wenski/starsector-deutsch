@@ -283,9 +283,8 @@ TOK_RE = re.compile(r"\$[A-Za-z_]\w*(?:\.\w+)*|%[-#+0,(]*\d*(?:\.\d+)?[sdfxX%]|\
 
 
 def is_choice(tok):
-    return tok.startswith("$") and bool(re.search(
-        r"(he|his|him|himself|man|sir|brother|ship|fleet|a)or(she|her|hers|herself|woman|madam|sister|fleet|ship|an)$",
-        tok.split(".")[-1].lower()))
+    """Wortwahl-Platzhalter wie $heOrShe, $factionIsOrAre, $onOrAt (CamelCase ...XOrY) liefern englische Woerter."""
+    return tok.startswith("$") and bool(re.search(r"[a-z]Or[A-Z][a-z]*$", tok.split(".")[-1]))
 
 
 def too_long(en, de):
@@ -302,7 +301,7 @@ def check(en, de):
     a = Counter(t.lower() if t.startswith("$") else t for t in TOK_RE.findall(en))
     b = Counter(t.lower() if t.startswith("$") else t for t in TOK_RE.findall(de))
     # Wortwahl-Platzhalter ($heOrShe, $shipOrFleet ...) liefern englische Woerter -> duerfen entfallen
-    choice = {t for t in a if is_choice(t)}
+    choice = {t.lower() for t in TOK_RE.findall(en) if is_choice(t)}
     missing = {t: n for t, n in (a - b).items() if t not in choice}
     extra = dict(b - a)
     if missing or extra:
