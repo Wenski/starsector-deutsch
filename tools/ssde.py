@@ -578,7 +578,7 @@ def cmd_build(dest=MOD, empty=False):
         "name": "Deutsche Übersetzung",
         "author": "Christian Wenski",
         "utility": "true",
-        "version": "0.2.0",
+        "version": "0.3.0",
         "description": "Deutsche Übersetzung der Spieltexte (Dialoge, Beschreibungen, Tooltips, Missionen). "
                        "Verändert keine Dateien des Spiels - zum Zurücksetzen einfach deaktivieren.",
         "gameVersion": "0.98a-RC8",
