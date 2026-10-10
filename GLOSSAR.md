@@ -158,3 +158,10 @@
 | Gargoyle (Hacker) | Gargoyle - duzt den Spieler, weiblich ("die Beste") |
 | Knight(s) of Ludd | Ritter von Ludd |
 | Tech / Sensors / Ops (Spitznamen der Brückenoffiziere) | Tech / Sensorik / Ops |
+| Archcurate / Subcurate / Curate | Erzkurat(in) / Subkurat(in) / Kurat(in) |
+| Knight Initiate / Novice | Ritteranwärter / Novize |
+| Providence | die Vorsehung |
+| Church of Galactic Redemption (CGR) | Kirche der Galaktischen Erlösung (CGR) |
+| High Hegemon | Hoher Hegemon |
+| Janus Device | Janus-Gerät |
+| Gentes (Plural von Gens) | Gentes |
