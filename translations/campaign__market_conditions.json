@@ -168,7 +168,7 @@
  "rare_ore_moderate#name": "Mäßige seltene Erze",
  "rare_ore_moderate#desc": "$Market besitzt bescheidene transplutonische Vorkommen, die mit beständiger Industrie und Investitionen gewinnbringend erschlossen werden könnten.",
  "rare_ore_abundant#name": "Reichliche seltene Erze",
- "rare_ore_abundant#desc": "In der Kruste von $market liegen reichliche transplutonische Vorkommen - genug, um die Ambitionen jedes nennenswerten Kriegsherrn oder Magnaten zu befeuern.",
+ "rare_ore_abundant#desc": "In der Kruste von $market liegen reichliche transplutonische Vorkommen - genug, um die Ambitionen jedes nennenswerten Warlords oder Magnaten zu befeuern.",
  "rare_ore_rich#name": "Reiche seltene Erze",
  "rare_ore_rich#desc": "Dicke Bänder aus Transplutonika durchziehen in prächtiger Fülle die Kruste von $market und verheißen große, gewaltige Macht für jene, die nur die Hand ausstrecken und sie nehmen.",
  "rare_ore_ultrarich#name": "Überreiche seltene Erze",
