@@ -38,7 +38,7 @@ oder die Zeichen enthalten, die die Spielschriften nicht darstellen können.
 
 ## Missionen (ab 0.3.0)
 Titel (`descriptor.json`), Briefing (`mission_text.txt`) und Flottentexte/Ziele (`MissionDefinition.java`).
-In den Java-Dateien werden nur die Strings in `setFleetTagline`/`addBriefingItem` ersetzt; Umlaute als `ä`-Escapes.
+In den Java-Dateien werden nur die Strings in `setFleetTagline`/`addBriefingItem` ersetzt; Umlaute als Unicode-Escapes (z.B. `\u00e4` für ä).
 Import und Build prüfen, dass jedes Literal gültiges Java bleibt.
 
 ## Codex (ab 0.4.0)
