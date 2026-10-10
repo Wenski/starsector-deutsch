@@ -79,3 +79,6 @@ shuttle = Fähre · comm link / comms = Verbindung / Kommunikation · bribe = Be
 - **Nie Buchstaben direkt an einen Platzhalter hängen** (`$playerLastNames`, `$factions` sind für das Spiel andere Variablen!).
   Genitiv umschreiben: "von Kapitän $playerLastName", "die Flotte von $faction". Ein Bindestrich danach ist ok: "$faction-Flotte".
 - Namens-Platzhalter nicht wiederholen, um ein Pronomen zu ersetzen - lieber "man", Passiv oder Rolle ("der Offizier").
+- **Geschlecht des Spielers ist unbekannt** (männlich oder weiblich wählbar): Bezeichnungen für den Spieler
+  geschlechtsneutral halten ("Kapitän" ist ok als Anrede/Titel; sonst z.B. "Bairds Schlägertrupp", "jemand wie Sie",
+  "die Person an Bord") - nie "die Schlägerin"/"der Schläger" o.ä. für den Spieler.
