@@ -34,4 +34,9 @@ oder die Zeichen enthalten, die die Spielschriften nicht darstellen können.
 - Texte, die im Java-Code fest eingebaut sind (`starfarer.api.jar`, `starfarer_obf.jar`): Hauptmenü, viele
   Bildschirm-Beschriftungen, Intel-Texte, Kolonie-Panels. Diese erfordern Jar-Patching (eigene Phase).
 - Platzhalter wie `$faction` werden vom Spiel mit englischen Wörtern gefüllt ("Hegemony").
-- Fraktionsnamen (`data/world/factions/*.faction`), Missionen, Codex-Einträge - folgen später.
+- Fraktionsnamen (`data/world/factions/*.faction`) und Codex-Einträge - folgen später.
+
+## Missionen (ab 0.3.0)
+Titel (`descriptor.json`), Briefing (`mission_text.txt`) und Flottentexte/Ziele (`MissionDefinition.java`).
+In den Java-Dateien werden nur die Strings in `setFleetTagline`/`addBriefingItem` ersetzt; Umlaute als `ä`-Escapes.
+Import und Build prüfen, dass jedes Literal gültiges Java bleibt.
