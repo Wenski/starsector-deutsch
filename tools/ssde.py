@@ -326,6 +326,9 @@ def check_unit(key, en, de):
         errs.append("unmaskiertes Anfuehrungszeichen in Script-String")
     if "#options#" in key and "\n" in de:
         errs.append("Zeilenumbruch in Option")
+    if key.startswith("java#") and not re.fullmatch(
+            r'(?:[^"\\\r\n]|\\[btnfr"\'\\]|\\u[0-9a-f]{4})*', java_esc(norm(de))):
+        errs.append("kein gueltiges Java-Stringliteral (Backslash/Zeilenumbruch?)")
     return errs
 
 
@@ -363,7 +366,10 @@ def java_apply(rel, tr):
     for i, m in enumerate(JAVA_TEXT_RE.finditer(s)):
         t = tr.get(f"java#{i}")
         if t is not None:
-            parts += [s[last:m.start(1)], java_esc(norm(t))]
+            lit = java_esc(norm(t))
+            # muss ein gueltiges Java-Stringliteral bleiben (sonst Absturz beim Kompilieren der Mission)
+            assert re.fullmatch(r'(?:[^"\\\r\n]|\\[btnfr"\'\\]|\\u[0-9a-f]{4})*', lit), f"{rel}: ungueltiges Literal {lit!r}"
+            parts += [s[last:m.start(1)], lit]
             last = m.end(1)
             used += 1
     parts.append(s[last:])
