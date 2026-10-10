@@ -144,3 +144,17 @@
 | retreat | Rückzug |
 | (D) / d-mod | (D) / D-Mod (Defektmodifikation) |
 | Low Tech / Midline / High Tech | Low-Tech / Midline / High-Tech (unverändert lassen in Herstellerfeldern) |
+
+## Story-Begriffe (aus den Dialogpaketen - einheitlich verwenden)
+| Englisch | Deutsch |
+|---|---|
+| Provost (Galatia Academy) | Rektor / Rektorin (z.B. "Rektorin Baird") |
+| Academician | Akademiker / Akademikerin |
+| Galatia Academy | Galatia-Akademie |
+| commsplate | Sprechplatte |
+| comms ID | Komm-ID |
+| Fleet Intelligence (Service) | Flottengeheimdienst |
+| Demarchon, Archon, Gens, Warlord, MuniSec, FleetSec | unverändert (Titel/Eigennamen) |
+| Gargoyle (Hacker) | Gargoyle - duzt den Spieler, weiblich ("die Beste") |
+| Knight(s) of Ludd | Ritter von Ludd |
+| Tech / Sensors / Ops (Spitznamen der Brückenoffiziere) | Tech / Sensorik / Ops |
