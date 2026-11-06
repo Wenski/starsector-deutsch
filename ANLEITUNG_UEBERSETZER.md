@@ -3,7 +3,7 @@
 Du übersetzt Texte des Weltraumspiels **Starsector** (2D-Flottenkampf/Handel/Erkundung, düstere Post-Kollaps-Sci-Fi) ins Deutsche.
 
 ## Ablauf
-1. Lies `E:\Spiele\Starsector\deutsch-projekt\GLOSSAR.md` vollständig. Glossar und Stilregeln sind verbindlich.
+1. Lies `GLOSSAR.md` im Projektordner vollständig. Glossar und Stilregeln sind verbindlich.
 2. Lies dein Paket `work/todo/<name>.json` (ein JSON-Objekt `{schluessel: englischer Text}`).
 3. Schreibe `work/done/<name>.json` (gleicher Dateiname) mit **exakt denselben Schlüsseln** und dem deutschen Text als Wert. Jeden Schlüssel übernehmen, keinen auslassen, keinen hinzufügen.
 4. Die Ausgabe muss gültiges JSON sein (UTF-8, Anführungszeichen im Text als `\"` maskieren, Zeilenumbrüche als `\n`). Prüfe die Datei danach mit:

@@ -1,6 +1,6 @@
 """Starsector Deutsch - Extraktions-, Import- und Build-Werkzeug.
 
-Liest NUR aus starsector-core und schreibt NUR in deutsch-projekt/ und mods/Deutsch/.
+Liest NUR aus starsector-core und schreibt NUR in den Projektordner und mods/Deutsch/.
 
   python -I tools/ssde.py extract            englische Quelltexte nach source/ extrahieren
   python -I tools/ssde.py chunk <file> <n>   offene Texte in Arbeitspakete (work/todo) aufteilen
@@ -13,7 +13,19 @@ import csv, io, json, os, re, shutil, sys
 from collections import Counter
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-GAME = os.path.dirname(ROOT)
+
+
+def _spielordner():
+    # Reihenfolge: Umgebungsvariable STARSECTOR_DIR, dann starsector_pfad.txt im Projekt, dann Elternordner
+    p = os.environ.get("STARSECTOR_DIR")
+    cfg = os.path.join(ROOT, "starsector_pfad.txt")
+    if not p and os.path.isfile(cfg):
+        with open(cfg, encoding="utf-8-sig") as f:
+            p = f.read().strip()
+    return p or os.path.dirname(ROOT)
+
+
+GAME = _spielordner()
 CORE = os.path.join(GAME, "starsector-core")
 MOD = os.path.join(GAME, "mods", "Deutsch")
 SRC = os.path.join(ROOT, "source")

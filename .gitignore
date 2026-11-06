@@ -1,2 +1,5 @@
-work/selftest/
+work/
+source/
+core-checksums-vorher.sha256
+starsector_pfad.txt
 __pycache__/
